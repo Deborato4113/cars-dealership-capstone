@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from .models import Dealer, Review, CarMake
@@ -16,9 +16,9 @@ from .serializers import (
 )
 
 
-# =========================
-# REGISTER
-# =========================
+# ============================================================
+# Registration
+# ============================================================
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
@@ -27,7 +27,6 @@ def register(request):
 
     if serializer.is_valid():
         user = serializer.save()
-
         return Response(
             UserSerializer(user).data,
             status=status.HTTP_201_CREATED
@@ -39,9 +38,9 @@ def register(request):
     )
 
 
-# =========================
-# EXISTING REACT LOGIN
-# =========================
+# ============================================================
+# Existing API Login
+# ============================================================
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
@@ -69,10 +68,10 @@ def login_user(request):
     })
 
 
-# =========================
-# IBM CAPSTONE LOGIN
-# POST /djangoapp/login
-# =========================
+# ============================================================
+# IBM Capstone Login
+# Required endpoint: POST /djangoapp/login
+# ============================================================
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
@@ -112,9 +111,9 @@ def djangoapp_login(request):
     })
 
 
-# =========================
-# LOGOUT
-# =========================
+# ============================================================
+# Existing API Logout
+# ============================================================
 
 @api_view(["POST"])
 def logout_user(request):
@@ -125,9 +124,23 @@ def logout_user(request):
     })
 
 
-# =========================
-# DEALERS
-# =========================
+# ============================================================
+# IBM Capstone Logout
+# Required endpoint: GET /djangoapp/logout
+# ============================================================
+
+@api_view(["GET"])
+def djangoapp_logout(request):
+    logout(request)
+
+    return Response({
+        "userName": ""
+    })
+
+
+# ============================================================
+# Fetch Dealers
+# ============================================================
 
 @api_view(["GET"])
 def dealers(request):
@@ -141,26 +154,22 @@ def dealers(request):
         dealers = Dealer.objects.all()
 
     return Response(
-        DealerSerializer(
-            dealers,
-            many=True
-        ).data
+        DealerSerializer(dealers, many=True).data
     )
 
 
-# =========================
-# DEALER BY ID
-# =========================
+# ============================================================
+# Fetch Dealer By ID
+# ============================================================
 
 @api_view(["GET"])
 def dealer_by_id(request, dealer_id):
     try:
         dealer = Dealer.objects.get(id=dealer_id)
-
     except Dealer.DoesNotExist:
         return Response(
             {"error": "Dealer not found"},
-            status=404
+            status=status.HTTP_404_NOT_FOUND
         )
 
     return Response(
@@ -168,9 +177,9 @@ def dealer_by_id(request, dealer_id):
     )
 
 
-# =========================
-# DEALERS BY STATE
-# =========================
+# ============================================================
+# Fetch Dealers By State
+# ============================================================
 
 @api_view(["GET"])
 def dealers_by_state(request, state):
@@ -179,16 +188,13 @@ def dealers_by_state(request, state):
     )
 
     return Response(
-        DealerSerializer(
-            qs,
-            many=True
-        ).data
+        DealerSerializer(qs, many=True).data
     )
 
 
-# =========================
-# DEALER REVIEWS
-# =========================
+# ============================================================
+# Fetch Dealer Reviews
+# ============================================================
 
 @api_view(["GET"])
 def dealer_reviews(request, dealer_id):
@@ -197,53 +203,41 @@ def dealer_reviews(request, dealer_id):
     ).order_by("-created_at")
 
     return Response(
-        ReviewSerializer(
-            reviews,
-            many=True
-        ).data
+        ReviewSerializer(reviews, many=True).data
     )
 
 
-# =========================
-# ADD REVIEW
-# =========================
+# ============================================================
+# Add Review
+# ============================================================
 
 @api_view(["POST"])
 def add_review(request, dealer_id):
-
     if not request.user.is_authenticated:
         return Response(
             {"error": "Authentication required"},
-            status=401
+            status=status.HTTP_401_UNAUTHORIZED
         )
 
     try:
-        dealer = Dealer.objects.get(
-            id=dealer_id
-        )
-
+        dealer = Dealer.objects.get(id=dealer_id)
     except Dealer.DoesNotExist:
         return Response(
             {"error": "Dealer not found"},
-            status=404
+            status=status.HTTP_404_NOT_FOUND
         )
 
-    text = request.data.get(
-        "text",
-        ""
-    ).strip()
+    text = request.data.get("text", "").strip()
 
-    rating = int(
-        request.data.get(
-            "rating",
-            5
-        )
-    )
+    try:
+        rating = int(request.data.get("rating", 5))
+    except (TypeError, ValueError):
+        rating = 5
 
     if not text:
         return Response(
             {"error": "Review text is required"},
-            status=400
+            status=status.HTTP_400_BAD_REQUEST
         )
 
     review = Review.objects.create(
@@ -255,13 +249,13 @@ def add_review(request, dealer_id):
 
     return Response(
         ReviewSerializer(review).data,
-        status=201
+        status=status.HTTP_201_CREATED
     )
 
 
-# =========================
-# CAR MAKES
-# =========================
+# ============================================================
+# Car Makes
+# ============================================================
 
 @api_view(["GET"])
 def car_makes(request):
@@ -273,17 +267,13 @@ def car_makes(request):
     )
 
 
-# =========================
-# REVIEW SENTIMENT
-# =========================
+# ============================================================
+# Sentiment Analysis
+# ============================================================
 
 @api_view(["POST"])
 def analyze_review(request):
-
-    text = request.data.get(
-        "text",
-        ""
-    )
+    text = request.data.get("text", "")
 
     positive_words = {
         "fantastic",
@@ -310,8 +300,8 @@ def analyze_review(request):
     }
 
     words = {
-        w.strip(".,!?").lower()
-        for w in text.split()
+        word.strip(".,!?").lower()
+        for word in text.split()
     }
 
     score = (
@@ -319,13 +309,12 @@ def analyze_review(request):
         - len(words & negative_words)
     )
 
-    sentiment = (
-        "positive"
-        if score > 0
-        else "negative"
-        if score < 0
-        else "neutral"
-    )
+    if score > 0:
+        sentiment = "positive"
+    elif score < 0:
+        sentiment = "negative"
+    else:
+        sentiment = "neutral"
 
     return Response({
         "text": text,
