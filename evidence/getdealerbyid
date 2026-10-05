@@ -1,0 +1,15 @@
+curl.exe -i "http://127.0.0.1:8000/api/dealers/1/"
+
+HTTP/1.1 200 OK
+Date: Mon, 05 Oct 2026 16:13:09 GMT
+Server: WSGIServer/0.2 CPython/3.13.14
+Content-Type: application/json
+Vary: Accept, Cookie, origin
+Allow: GET, OPTIONS
+X-Frame-Options: DENY
+Content-Length: 299
+X-Content-Type-Options: nosniff
+Referrer-Policy: same-origin
+Cross-Origin-Opener-Policy: same-origin
+
+{"id":1,"name":"Kansas City Motors","address":"1200 Main Street","city":"Kansas City","state":"Kansas","zip_code":"66101","phone":"913-555-0101","website":"https://example.com","image_url":"https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=900&q=80","reviews_count":3}

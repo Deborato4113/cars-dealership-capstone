@@ -1,0 +1,15 @@
+(venv) PS C:\Users\debor\Downloads\cars-dealership-capstone\server> curl.exe -i "http://127.0.0.1:8000/api/carmakes/"
+
+HTTP/1.1 200 OK
+Date: Mon, 05 Oct 2026 16:46:49 GMT
+Server: WSGIServer/0.2 CPython/3.13.14
+Content-Type: application/json
+Vary: Accept, Cookie, origin
+Allow: GET, OPTIONS
+X-Frame-Options: DENY
+Content-Length: 250
+X-Content-Type-Options: nosniff
+Referrer-Policy: same-origin
+Cross-Origin-Opener-Policy: same-origin
+
+[{"id":1,"make":"Toyota","models":["Camry","Corolla","RAV4"]},{"id":2,"make":"Honda","models":["Civic","Accord","CR-V"]},{"id":3,"make":"Ford","models":["Mustang","F-150","Explorer"]},{"id":4,"make":"Chevrolet","models":["Malibu","Equinox","Tahoe"]}]

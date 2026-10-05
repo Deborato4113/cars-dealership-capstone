@@ -1,0 +1,17 @@
+curl.exe -i -c cookies.txt -X POST "http://127.0.0.1:8000/api/login/" -H "Content-Type: application/json" --data-binary "@login.json"
+
+HTTP/1.1 200 OK
+Date: Mon, 05 Oct 2026 16:06:17 GMT
+Server: WSGIServer/0.2 CPython/3.13.14
+Content-Type: application/json
+Vary: Accept, Cookie, origin
+Allow: OPTIONS, POST
+X-Frame-Options: DENY
+Content-Length: 123
+X-Content-Type-Options: nosniff
+Referrer-Policy: same-origin
+Cross-Origin-Opener-Policy: same-origin
+Set-Cookie:  csrftoken=aZhz7iVfi5DbDyioBV99NtN1gD4B5Sfg; expires=Mon, 04 Oct 2027 16:06:17 GMT; Max-Age=31449600; Path=/; SameSite=Lax
+Set-Cookie:  sessionid=db6199e5cchejxt8j8eakm86t2sdmemn; expires=Mon, 19 Oct 2026 16:06:17 GMT; HttpOnly; Max-Age=1209600; Path=/; SameSite=Lax
+
+{"message":"Login successful","user":{"username":"demo","first_name":"Demo","last_name":"User","email":"demo@example.com"}}

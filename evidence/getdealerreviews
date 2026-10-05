@@ -1,0 +1,15 @@
+curl.exe -i "http://127.0.0.1:8000/api/dealers/1/reviews/"
+
+HTTP/1.1 200 OK
+Date: Mon, 05 Oct 2026 16:11:38 GMT
+Server: WSGIServer/0.2 CPython/3.13.14
+Content-Type: application/json
+Vary: Accept, Cookie, origin
+Allow: GET, OPTIONS
+X-Frame-Options: DENY
+Content-Length: 376
+X-Content-Type-Options: nosniff
+Referrer-Policy: same-origin
+Cross-Origin-Opener-Policy: same-origin
+
+[{"id":3,"dealer":1,"username":"demo","text":"Excellent Services","rating":5,"created_at":"2026-10-05T21:32:01.908347+05:30"},{"id":2,"dealer":1,"username":"demo","text":"Excellent services","rating":5,"created_at":"2026-10-05T20:25:10.762406+05:30"},{"id":1,"dealer":1,"username":"demo","text":"Fantastic services","rating":5,"created_at":"2026-10-05T19:30:22.546795+05:30"}]

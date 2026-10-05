@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+server/venv/
+*.sqlite3
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Node
+client/node_modules/
+client/dist/
+
+# Django
+staticfiles/
+*.log
+
+# OS / IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Evidence temporary files
+cookies.txt
+login.json
+review.json
