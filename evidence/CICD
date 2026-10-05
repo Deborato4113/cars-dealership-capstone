@@ -1,1 +1,170 @@
-After pushing to GitHub, copy the actual successful GitHub Actions workflow output/details here.
+GitHub Actions CI/CD Workflow Evidence
+Repository: Deborato4113/cars-dealership-capstone
+Workflow: CI
+Run: Initial cars dealership capstone #1
+Status: Success
+Trigger: Push to main
+Job: build
+
+==================================================
+SET UP PYTHON
+==================================================
+
+Run actions/setup-python@v5
+
+with:
+  python-version: 3.12
+  check-latest: false
+  token: ***
+  update-environment: true
+  allow-prereleases: false
+  freethreaded: false
+
+Installed versions
+
+(node:2093) [DEP0040] DeprecationWarning: The `punycode` module is deprecated.
+Please use a userland alternative instead.
+
+Successfully set up CPython (3.12.14)
+
+
+==================================================
+INSTALL BACKEND DEPENDENCIES
+==================================================
+
+Run cd server
+cd server
+pip install -r requirements.txt
+
+Collecting Django<6.0,>=5.0
+Collecting djangorestframework>=3.15
+Collecting django-cors-headers>=4.4
+Collecting asgiref>=3.8.1
+Collecting sqlparse>=0.3.1
+
+Installing collected packages:
+sqlparse, asgiref, Django, djangorestframework, django-cors-headers
+
+Successfully installed Django-5.2.17 asgiref-3.12.1
+django-cors-headers-4.9.0 djangorestframework-3.18.1
+sqlparse-0.6.0
+
+
+==================================================
+DJANGO CHECKS
+==================================================
+
+Run cd server
+cd server
+python manage.py check
+python manage.py migrate
+
+System check identified no issues (0 silenced).
+
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, dealers, sessions
+
+Running migrations:
+
+Applying contenttypes.0001_initial... OK
+Applying auth.0001_initial... OK
+Applying admin.0001_initial... OK
+Applying admin.0002_logentry_remove_auto_add... OK
+Applying admin.0003_logentry_add_action_flag_choices... OK
+Applying contenttypes.0002_remove_content_type_name... OK
+Applying auth.0002_permission_name_max_length... OK
+Applying auth.0003_alter_user_email_max_length... OK
+Applying auth.0004_alter_user_username_opts... OK
+Applying auth.0005_alter_user_last_name_max_length... OK
+Applying auth.0006_require_contenttypes_0002... OK
+Applying auth.0007_alter_validators_add_error_messages... OK
+Applying auth.0008_alter_user_username_max_length... OK
+Applying auth.0009_alter_user_last_name_max_length... OK
+Applying auth.0010_alter_group_name_max_length... OK
+Applying auth.0011_update_proxy_permissions... OK
+Applying auth.0012_user_first_name_max_length... OK
+Applying dealers.0001_initial... OK
+Applying sessions.0001_initial... OK
+
+
+==================================================
+SET UP NODE
+==================================================
+
+Run actions/setup-node@v4
+
+with:
+  node-version: 20
+  cache: npm
+  cache-dependency-path: client/package-lock.json
+  always-auth: false
+  check-latest: false
+  token: ***
+
+Attempting to download 20...
+
+Acquiring 20.20.2
+
+Environment details:
+  node: v20.20.2
+  npm: 10.8.2
+  yarn: 1.22.22
+
+npm cache is not found
+
+
+==================================================
+BUILD FRONTEND
+==================================================
+
+Run cd client
+cd client
+npm install
+npm run build
+
+added 66 packages, and audited 67 packages in 1s
+
+7 packages are looking for funding
+
+4 vulnerabilities (3 moderate, 1 high)
+
+> cars-dealership-frontend@1.0.0 build
+> vite build
+
+vite v5.4.21 building for production...
+
+transforming...
+✓ 33 modules transformed.
+
+rendering chunks...
+computing gzip size...
+
+dist/index.html                  0.35 kB
+dist/assets/index-DHiCkWn.css    2.46 kB │ gzip: 0.92 kB
+dist/assets/index-CwlIj9OP.js    171.34 kB │ gzip: 55.69 kB
+
+✓ built in 4.55s
+
+
+==================================================
+COMPLETE JOB
+==================================================
+
+Cleaning up orphan processes
+
+Warning: Node.js 20 is deprecated. The following actions target
+Node.js 20 but are being forced to run on Node.js 24:
+actions/checkout@v4, actions/setup-node@v4, actions/setup-python@v5.
+
+GitHub Actions job completed successfully.
+
+==================================================
+RESULT
+==================================================
+
+CI/CD workflow: SUCCESS
+Build job: SUCCESS
+Frontend production build: SUCCESS
+Django system check: SUCCESS
+Django migrations: SUCCESS
+Backend dependencies installed successfully.
