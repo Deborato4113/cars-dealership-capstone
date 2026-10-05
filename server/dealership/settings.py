@@ -1,9 +1,15 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "capstone-development-secret-key-change-before-production"
-DEBUG = True
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "capstone-development-secret-key-change-before-production"
+)
+
+DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
+
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
@@ -35,11 +41,13 @@ TEMPLATES = [{
     "BACKEND": "django.template.backends.django.DjangoTemplates",
     "DIRS": [],
     "APP_DIRS": True,
-    "OPTIONS": {"context_processors": [
-        "django.template.context_processors.request",
-        "django.contrib.auth.context_processors.auth",
-        "django.contrib.messages.context_processors.messages",
-    ]},
+    "OPTIONS": {
+        "context_processors": [
+            "django.template.context_processors.request",
+            "django.contrib.auth.context_processors.auth",
+            "django.contrib.messages.context_processors.messages",
+        ]
+    },
 }]
 
 WSGI_APPLICATION = "dealership.wsgi.application"
@@ -52,13 +60,19 @@ DATABASES = {
 }
 
 AUTH_PASSWORD_VALIDATORS = []
+
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# --------------------------------------------------
+# CORS
+# --------------------------------------------------
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
@@ -68,18 +82,20 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
+# --------------------------------------------------
+# CSRF
+# --------------------------------------------------
+
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://cars-dealership-capstone-1.onrender.com",
 ]
 
-CORS_ALLOW_CREDENTIALS = True
+# --------------------------------------------------
+# Django REST Framework
+# --------------------------------------------------
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "dealers.authentication.CsrfExemptSessionAuthentication",
@@ -88,3 +104,13 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.AllowAny",
     ],
 }
+
+# --------------------------------------------------
+# Cross-origin session cookies
+# --------------------------------------------------
+
+SESSION_COOKIE_SAMESITE = "None"
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SAMESITE = "None"
+CSRF_COOKIE_SECURE = True
