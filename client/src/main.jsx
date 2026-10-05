@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route, Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import "./styles.css";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+const API = import.meta.env.VITE_API_URL || "https://cars-dealership-capstone-rlq9.onrender.com/api";
 
 async function api(path, options={}) {
   const res = await fetch(API + path, {credentials:"include", headers:{"Content-Type":"application/json", ...(options.headers||{})}, ...options});
